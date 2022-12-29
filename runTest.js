@@ -1,25 +1,23 @@
 const webdriver = require("selenium-webdriver");
 
-module.exports = async (capabilities, uri) => {
+module.exports = async (capabilities, authUri, url, waitTime) => {
   let driver = new webdriver.Builder()
-    .usingServer(uri)
+    .usingServer(authUri)
     .withCapabilities({
       ...capabilities,
       ...(capabilities["browser"] && { browserName: capabilities["browser"] }),
     })
     .build();
   try {
-    await driver.get("https://flytant.com");
-    setTimeout(async () => {
-      await driver.executeScript(
-        'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "all task done"}}'
-      );
-      await driver.quit();
-    }, 60000);
+    await driver.get(url);
+    await new Promise((resolve) => setTimeout(resolve, waitTime));
+    await driver.executeScript(
+      'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "all task done"}}'
+    );
   } catch (e) {
     await driver.executeScript(
       'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "Some elements failed to load!"}}'
     );
-    await driver.quit();
   }
+  await driver.quit();
 };
