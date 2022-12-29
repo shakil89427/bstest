@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/d7db1bc5-2467-46ba-a997-d57b2114a6c8/appservices/subscriptions/d7db1bc5-2467-46ba-a997-d57b2114a6c8/resourceGroups/browserstack/providers/Microsoft.Web/sites/browserstacktest",
+    "appService.deploySubpath": "."
+}
